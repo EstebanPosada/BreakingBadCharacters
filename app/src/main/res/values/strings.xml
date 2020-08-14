@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BreakingBadTestApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="character_name">Character name</string>
+    <string name="occupation">Occupation %s</string>
+    <string name="status">Status %s</string>
+    <string name="portrayed">Portrayed %s</string>
+</resources>
