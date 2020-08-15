@@ -7,8 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
 import com.estebanposada.breakingbadtestapp.data.database.Character
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.withContext
 
 class MainVIewModel @ViewModelInject constructor(private val repository: CharactersRepository) :
     ViewModel() {
@@ -18,14 +19,30 @@ class MainVIewModel @ViewModelInject constructor(private val repository: Charact
     val characters: LiveData<List<Character>>
         get() = _characters
 
+    private val _detail = MutableLiveData<Character>()
+    val detail: LiveData<Character>
+        get() = _detail
+
     fun getCharacters() {
         viewModelScope.launch {
-            val data = repository.getCharacters()
+            val data = withContext(Dispatchers.IO) { repository.getCharacters() }
             _characters.value = data
         }
     }
 
-    fun onCharacterClicked(id: Int){
+    fun onFavoriteClicked(id: Int) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val data = repository.toggleFavoriteCharacter(id)
+                _detail.postValue(data)
+            }
+        }
+    }
 
+    fun getCharacterInfo(id: Int) {
+        viewModelScope.launch {
+            val data = withContext(Dispatchers.IO) { repository.getCharacterById(id) }
+            _detail.value = data
+        }
     }
 }

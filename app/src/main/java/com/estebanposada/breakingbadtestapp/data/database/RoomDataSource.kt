@@ -7,11 +7,11 @@ class RoomDataSource @Inject constructor(private val dao: CharacterDao): LocalDa
 
     override suspend fun isEmpty(): Boolean = dao.characterCount() <= 0
 
-    override suspend fun saveMovies(characters: List<Character>) {
+    override suspend fun saveCharacters(characters: List<Character>) {
         dao.insertCharacter(characters)
     }
 
-    override suspend fun getPopularMovies(): List<Character> = dao.getAll()
+    override suspend fun getCharacters(): List<Character> = dao.getAll()
 
     override suspend fun findById(id: Int): Character = dao.findById(id)
 

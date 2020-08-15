@@ -12,15 +12,20 @@ import com.estebanposada.breakingbadtestapp.data.database.Character
 import com.estebanposada.breakingbadtestapp.databinding.CharacterItemBinding
 import kotlinx.android.synthetic.main.character_item.view.*
 
-class ItemAdapter(/*private val selectedListener: (Int) -> Unit*/) :
-    ListAdapter<Character, ItemAdapter.ViewHolder>(COMPARATOR) {
+class ItemAdapter : ListAdapter<Character, ItemAdapter.ViewHolder>(COMPARATOR) {
 
-//    private val selectedListener: (Int) -> Unit
+    var onSelectedItem: ((Int) -> Unit)? = null
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        return ViewHolder(CharacterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            CharacterItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,8 +35,8 @@ class ItemAdapter(/*private val selectedListener: (Int) -> Unit*/) :
             itemView.favorite.setImageDrawable(context.getDrawable(icon))
             itemView.name.text = item.name
             itemView.nickname.text = item.nickname
-            Glide.with(itemView).load(item.img).centerCrop().into(itemView.preview)
-            //itemView.setOnClickListener { selectedListener(item.id) }
+            Glide.with(itemView).load(item.img).centerInside().into(itemView.preview)
+            itemView.setOnClickListener { onSelectedItem?.invoke(item.id) }
 
         }
     }

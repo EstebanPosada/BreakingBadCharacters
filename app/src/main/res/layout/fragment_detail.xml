@@ -11,63 +11,110 @@
         android:id="@+id/ch_img"
         android:layout_width="0dp"
         android:layout_height="140dp"
-        app:layout_constraintBottom_toTopOf="@id/ch_occupation"
-        app:layout_constraintEnd_toStartOf="@id/ch_name"
+        app:layout_constraintBottom_toTopOf="@id/ch_occupation_title"
+        app:layout_constraintEnd_toStartOf="@id/ch_nick"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_bias="0.1"
         app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/abc_vector_test" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ch_name"
+        android:id="@+id/ch_nick"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/ch_img"
         app:layout_constraintEnd_toStartOf="@+id/ch_favorite"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toEndOf="@id/ch_img"
         app:layout_constraintTop_toTopOf="@id/ch_img"
         tools:text="@string/character_name" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ch_favorite"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ch_name"
+        app:layout_constraintStart_toEndOf="@id/ch_nick"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/abc_vector_test" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ch_occupation"
-        android:layout_width="0dp"
+        android:id="@+id/ch_occupation_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
         android:text="@string/occupation"
-        app:layout_constraintBottom_toTopOf="@id/ch_status"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ch_status_title"
+        app:layout_constraintEnd_toStartOf="@id/ch_occupation_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ch_img" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ch_status"
+        android:id="@+id/ch_occupation_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/status"
-        app:layout_constraintBottom_toTopOf="@id/ch_portrayed"
+        android:paddingHorizontal="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/ch_occupation_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ch_occupation" />
+        app:layout_constraintStart_toEndOf="@id/ch_occupation_title"
+        app:layout_constraintTop_toTopOf="@id/ch_occupation_title"
+        tools:text="@string/occupation" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ch_portrayed"
+        android:id="@+id/ch_status_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:text="@string/status"
+        app:layout_constraintBottom_toTopOf="@id/ch_portrayed_title"
+        app:layout_constraintEnd_toEndOf="@id/ch_occupation_title"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/ch_occupation_title"
+        app:layout_constraintTop_toBottomOf="@id/ch_occupation_title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ch_status_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/ch_status_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ch_occupation_text"
+        app:layout_constraintTop_toTopOf="@id/ch_status_title"
+        tools:text="@string/status" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ch_portrayed_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
         android:text="@string/portrayed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ch_status" />
+        app:layout_constraintEnd_toEndOf="@id/ch_occupation_title"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@id/ch_occupation_title"
+        app:layout_constraintTop_toBottomOf="@id/ch_status_title" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ch_portrayed_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/ch_portrayed_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ch_occupation_text"
+        app:layout_constraintTop_toTopOf="@id/ch_portrayed_title"
+        tools:text="@string/portrayed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

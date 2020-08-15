@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.estebanposada.breakingbadtestapp.R
 import com.estebanposada.breakingbadtestapp.databinding.FragmentMainBinding
@@ -20,7 +21,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MainVIewModel by viewModels()
 
-    private val adapter = ItemAdapter(/*viewModel::onCharacterClicked*/)
+    private val adapter = ItemAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +41,13 @@ class MainFragment : Fragment() {
 
         viewModel.getCharacters()
         viewModel.characters.observe(viewLifecycleOwner, Observer {
+            binding.progress.visibility = View.GONE
             adapter.submitList(it)
         })
+        adapter.onSelectedItem = {
+            view.findNavController()
+                .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
+        }
 
 
     }

@@ -10,6 +10,7 @@
         android:layout_height="40dp"
         android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/abc_vector_test" />
@@ -23,6 +24,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/nickname"
+        app:layout_constraintEnd_toStartOf="@id/favorite"
         app:layout_constraintStart_toEndOf="@id/preview"
         app:layout_constraintTop_toTopOf="@id/preview" />
 
@@ -33,7 +35,8 @@
         android:text="@string/character_name"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@id/preview"
-        app:layout_constraintStart_toEndOf="@id/preview"
+        app:layout_constraintEnd_toEndOf="@id/name"
+        app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name" />
 
     <androidx.appcompat.widget.AppCompatImageView
