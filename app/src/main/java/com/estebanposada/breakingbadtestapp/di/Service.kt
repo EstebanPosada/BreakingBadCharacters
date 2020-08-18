@@ -1,6 +1,6 @@
 package com.estebanposada.breakingbadtestapp.di
 
-import com.estebanposada.breakingbadtestapp.data.service.BreakingBadApi
+import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

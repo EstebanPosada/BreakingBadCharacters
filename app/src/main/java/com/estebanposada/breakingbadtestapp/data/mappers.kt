@@ -1,7 +1,7 @@
 package com.estebanposada.breakingbadtestapp.data
 
 import com.estebanposada.breakingbadtestapp.data.database.Character as DomainCharacter
-import com.estebanposada.breakingbadtestapp.data.service.model.Character as ServerCharacter
+import com.estebanposada.breakingbadtestapp.data.server.model.Character as ServerCharacter
 
 fun DomainCharacter.toRoom(): ServerCharacter =
     ServerCharacter(

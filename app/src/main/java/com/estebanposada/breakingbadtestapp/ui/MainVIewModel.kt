@@ -1,12 +1,9 @@
 package com.estebanposada.breakingbadtestapp.ui
 
-import androidx.lifecycle.ViewModel
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
+import androidx.lifecycle.*
 import com.estebanposada.breakingbadtestapp.data.database.Character
+import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,12 +20,12 @@ class MainVIewModel @ViewModelInject constructor(private val repository: Charact
     val detail: LiveData<Character>
         get() = _detail
 
-    fun getCharacters() {
-        viewModelScope.launch {
-            val data = withContext(Dispatchers.IO) { repository.getCharacters() }
-            _characters.value = data
-        }
-    }
+//    fun getCharacters() {
+//        viewModelScope.launch {
+//            val data = withContext(Dispatchers.IO) { repository.getCharacters() }
+//            _characters.value = data
+//        }
+//    }
 
     fun onFavoriteClicked(id: Int) {
         viewModelScope.launch {
@@ -45,4 +42,6 @@ class MainVIewModel @ViewModelInject constructor(private val repository: Charact
             _detail.value = data
         }
     }
+
+    fun getCharactersPaged(filter: String?) = repository.getData(filter)
 }

@@ -1,11 +1,12 @@
 package com.estebanposada.breakingbadtestapp.data.database
 
+import androidx.paging.DataSource
 import androidx.room.*
 
 @Dao
 interface CharacterDao {
 
-    @Query("SELECT * FROM Character")
+    @Query("SELECT * FROM Character ORDER BY favorite DESC")
     fun getAll(): List<Character>
 
     @Query("SELECT * FROM Character WHERE id = :id")
@@ -19,4 +20,8 @@ interface CharacterDao {
 
     @Update
     fun updateCharacter(character: Character)
+
+    @Query("SELECT * FROM Character WHERE name = :filter " +
+            "OR nickname = :filter ORDER BY favorite DESC")
+    fun getCharacters(filter: String?): DataSource.Factory<Int, Character>
 }

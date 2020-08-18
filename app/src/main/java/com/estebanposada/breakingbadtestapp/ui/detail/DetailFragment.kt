@@ -35,7 +35,7 @@ class DetailFragment : Fragment() {
         val id = args.id
         viewModel.getCharacterInfo(id)
         viewModel.detail.observe(viewLifecycleOwner, Observer { ch ->
-            val icon = if (ch.favorite) R.drawable.ic_favorite_on else R.drawable.ic_favorite_off
+            val icon = if (ch.favorite) R.drawable.ic_favorite__on else R.drawable.ic_favorite__off
             binding.chFavorite.setImageDrawable(requireContext().getDrawable(icon))
             binding.chFavorite.setOnClickListener { viewModel.onFavoriteClicked(id) }
             Glide.with(requireContext()).load(ch.img).centerInside().into(binding.chImg)

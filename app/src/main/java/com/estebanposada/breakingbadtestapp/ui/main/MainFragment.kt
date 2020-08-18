@@ -21,7 +21,7 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: MainVIewModel by viewModels()
 
-    private val adapter = ItemAdapter()
+    private val adapter = CharacterAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,20 +36,20 @@ class MainFragment : Fragment() {
 
         val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         binding.rvCharacters.addItemDecoration(decoration)
-
         binding.rvCharacters.adapter = adapter
 
-        viewModel.getCharacters()
-        viewModel.characters.observe(viewLifecycleOwner, Observer {
-            binding.progress.visibility = View.GONE
-            adapter.submitList(it)
-        })
         adapter.onSelectedItem = {
             view.findNavController()
                 .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
         }
+        observeCharacters(null)
 
+    }
 
+    private fun observeCharacters(filter: String?) {
+        viewModel.getCharactersPaged(filter).observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 
     override fun onDestroyView() {
