@@ -1,4 +1,4 @@
-package com.estebanposada.breakingbadtestapp
+package com.estebanposada.breakingbadtestapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

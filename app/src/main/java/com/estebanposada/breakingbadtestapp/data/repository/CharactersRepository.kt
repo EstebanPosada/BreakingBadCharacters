@@ -30,6 +30,7 @@ class CharactersRepository(
 
     suspend fun toggleFavoriteCharacter(id: Int): Character {
         val character = getCharacterById(id)
+
         return with(character) {
             copy(favorite = !favorite).also { localDataSource.update(it) }
         }

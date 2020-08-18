@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -42,12 +43,19 @@ class MainFragment : Fragment() {
             view.findNavController()
                 .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
         }
+        binding.search.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                viewModel.getCharactersPaged(v.text.toString())
+            }
+            true
+        }
         observeCharacters(null)
 
     }
 
     private fun observeCharacters(filter: String?) {
         viewModel.getCharactersPaged(filter).observe(viewLifecycleOwner, Observer {
+            binding.progress.visibility = View.GONE
             adapter.submitList(it)
         })
     }
