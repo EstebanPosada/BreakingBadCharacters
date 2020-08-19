@@ -43,18 +43,25 @@ class MainFragment : Fragment() {
             view.findNavController()
                 .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
         }
-        binding.search.setOnEditorActionListener { v, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                viewModel.getCharactersPaged(v.text.toString())
+        binding.search.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.search(v.text.toString())
             }
             true
         }
-        observeCharacters(null)
+        observeCharacters()
+        val query = savedInstanceState?.getString(SEARCH_QUERY) ?: DEFAULT_QUERY
+        viewModel.search(query)
 
     }
 
-    private fun observeCharacters(filter: String?) {
-        viewModel.getCharactersPaged(filter).observe(viewLifecycleOwner, Observer {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(SEARCH_QUERY, binding.search.text.toString())
+    }
+
+    private fun observeCharacters() {
+        viewModel.characters.observe(viewLifecycleOwner, Observer {
             binding.progress.visibility = View.GONE
             adapter.submitList(it)
         })
@@ -63,5 +70,10 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val SEARCH_QUERY: String = "search_query"
+        private const val DEFAULT_QUERY = ""
     }
 }

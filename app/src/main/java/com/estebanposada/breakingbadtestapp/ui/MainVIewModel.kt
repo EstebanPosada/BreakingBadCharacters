@@ -2,8 +2,10 @@ package com.estebanposada.breakingbadtestapp.ui
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import androidx.paging.PagedList
 import com.estebanposada.breakingbadtestapp.data.database.Character
 import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
+import com.estebanposada.breakingbadtestapp.data.server.model.CharacterResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -11,21 +13,17 @@ import kotlinx.coroutines.withContext
 class MainVIewModel @ViewModelInject constructor(private val repository: CharactersRepository) :
     ViewModel() {
 
-    //    @Inject lateinit var repository
-    private val _characters = MutableLiveData<List<Character>>()
-    val characters: LiveData<List<Character>>
-        get() = _characters
+    private val queryLiveData = MutableLiveData<String>()
+    private val result: LiveData<CharacterResult> = Transformations.map(queryLiveData) {
+        if (it.isEmpty()) repository.getCharacters() else repository.getData(it)
+    }
+
+    val characters: LiveData<PagedList<Character>> =
+        Transformations.switchMap(result) { it -> it.data }
 
     private val _detail = MutableLiveData<Character>()
     val detail: LiveData<Character>
         get() = _detail
-
-//    fun getCharacters() {
-//        viewModelScope.launch {
-//            val data = withContext(Dispatchers.IO) { repository.getCharacters() }
-//            _characters.value = data
-//        }
-//    }
 
     fun onFavoriteClicked(id: Int) {
         viewModelScope.launch {
@@ -43,5 +41,7 @@ class MainVIewModel @ViewModelInject constructor(private val repository: Charact
         }
     }
 
-    fun getCharactersPaged(filter: String?) = repository.getData(filter)
+    fun search(filter: String) {
+        queryLiveData.postValue(filter)
+    }
 }

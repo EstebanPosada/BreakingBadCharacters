@@ -1,18 +1,16 @@
 package com.estebanposada.breakingbadtestapp.data.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import com.estebanposada.breakingbadtestapp.data.database.Character
 import com.estebanposada.breakingbadtestapp.data.database.CharacterDao
 import com.estebanposada.breakingbadtestapp.data.factory.CharacterBoundaryCallback
+import com.estebanposada.breakingbadtestapp.data.factory.CharacterDataFactory
+import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
+import com.estebanposada.breakingbadtestapp.data.server.model.CharacterResult
 import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
 import com.estebanposada.breakingbadtestapp.data.source.RemoteDataSource
 import com.estebanposada.breakingbadtestapp.data.toDomain
-import com.estebanposada.breakingbadtestapp.data.factory.CharacterDataFactory
-import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class CharactersRepository(
     private val localDataSource: LocalDataSource,
@@ -22,14 +20,6 @@ class CharactersRepository(
     private val scope: CoroutineScope,
     private val api: BreakingBadApi
 ) {
-
-    suspend fun getCharacters(): List<Character> {
-        if (localDataSource.isEmpty()) {
-            val data = remoteDataSource.getCharacters().map { it.toDomain() }
-            localDataSource.saveCharacters(data)
-        }
-        return localDataSource.getCharacters()
-    }
 
     suspend fun getCharacters(limit: Int, offset: Int): List<Character> =
         remoteDataSource.getCharacters(limit, offset).map { it.toDomain() }
@@ -44,26 +34,27 @@ class CharactersRepository(
         }
     }
 
-    fun getData(filter: String?): LiveData<PagedList<Character>> {
-        val query = "%${filter?.replace(' ', '%')}%"
-        val localDataFactory = localDataSource.getFactoryCharacters(query)
+    fun getCharacters(): CharacterResult {
+        val localDataFactory = localDataSource.getFactoryCharacters()
 
-        scope.launch {
-            val data = localDataSource.getCharacters()
-        }
-
-        val localData = LivePagedListBuilder(
+        val data = LivePagedListBuilder(
             localDataFactory,
             CharacterDataFactory.pagedListConfig()
-        )
-//            .setBoundaryCallback(CharacterBoundaryCallback(dao, scope, api))
+        ).setBoundaryCallback(CharacterBoundaryCallback(dao, scope, api))
             .build()
+        return CharacterResult(data)
+    }
 
-//        val remoteData = LivePagedListBuilder(
-//            dataFactory,
-//            CharacterDataFactory.pagedListConfig()
-//        ).build()
-        return localData
+    fun getData(filter: String): CharacterResult {
+        val query = "%${filter?.replace(' ', '%')}%"
+        val localDataFactory = localDataSource.getFactoryCharactersFiltered(query)
+
+        val data = LivePagedListBuilder(
+            localDataFactory,
+            CharacterDataFactory.pagedListConfig()
+        ).setBoundaryCallback(CharacterBoundaryCallback(dao, scope, api))
+            .build()
+        return CharacterResult(data)
     }
 
 }

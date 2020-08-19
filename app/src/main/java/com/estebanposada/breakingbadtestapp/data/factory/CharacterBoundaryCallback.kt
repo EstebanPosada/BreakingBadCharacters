@@ -4,9 +4,9 @@ import androidx.paging.PagedList
 import com.estebanposada.breakingbadtestapp.data.database.Character
 import com.estebanposada.breakingbadtestapp.data.database.CharacterDao
 import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
+import com.estebanposada.breakingbadtestapp.data.toDomain
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import com.estebanposada.breakingbadtestapp.data.toDomain
 
 class CharacterBoundaryCallback(
     private val dao: CharacterDao,
@@ -19,7 +19,6 @@ class CharacterBoundaryCallback(
     private var allPagesGrabbed = false
 
     override fun onZeroItemsLoaded() {
-//        super.onZeroItemsLoaded()
         requestAndSaveData()
     }
 
