@@ -3,6 +3,7 @@ package com.estebanposada.breakingbadtestapp.data.factory
 import androidx.paging.PagedList
 import com.estebanposada.breakingbadtestapp.data.database.Character
 import com.estebanposada.breakingbadtestapp.data.database.CharacterDao
+import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository.Companion.PAGE_SIZE
 import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
 import com.estebanposada.breakingbadtestapp.data.toDomain
 import kotlinx.coroutines.CoroutineScope
@@ -31,10 +32,10 @@ class CharacterBoundaryCallback(
         if (allPagesGrabbed) return
         scope.launch {
             val data =
-                api.getCharacters(CharacterDataFactory.PAGE_SIZE, offset).map { it.toDomain() }
+                api.getCharacters(PAGE_SIZE, offset).map { it.toDomain() }
             if (data.isEmpty()) allPagesGrabbed = true
-            dao.insertCharacter(data)
-            offset += CharacterDataFactory.PAGE_SIZE
+            dao.insertCharacters(data)
+            offset += PAGE_SIZE
         }
     }
 }

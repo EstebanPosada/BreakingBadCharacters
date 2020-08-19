@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.estebanposada.breakingbadtestapp.R
@@ -27,6 +29,10 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            NavHostFragment.findNavController(this@DetailFragment).navigateUp()
+            true
+        }
         return binding.root
     }
 
@@ -43,7 +49,6 @@ class DetailFragment : Fragment() {
             binding.chOccupationText.text = ch.occupation.joinToString()
             binding.chStatusText.text = ch.status
             binding.chPortrayedText.text = ch.portrayed
-
         })
     }
 

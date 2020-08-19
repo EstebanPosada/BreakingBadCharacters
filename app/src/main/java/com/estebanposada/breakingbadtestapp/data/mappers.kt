@@ -20,7 +20,6 @@ fun DomainCharacter.toRoom(): ServerCharacter =
 
 fun ServerCharacter.toDomain(): DomainCharacter =
     DomainCharacter(
-        0,
         char_id,
         name,
         birthday,

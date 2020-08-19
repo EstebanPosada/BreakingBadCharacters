@@ -2,9 +2,8 @@ package com.estebanposada.breakingbadtestapp.data.database
 
 import androidx.paging.DataSource
 import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
-import javax.inject.Inject
 
-class RoomDataSource @Inject constructor(private val dao: CharacterDao) :
+class RoomDataSource(private val dao: CharacterDao) :
     LocalDataSource {
 
     override suspend fun findById(id: Int): Character = dao.findById(id)

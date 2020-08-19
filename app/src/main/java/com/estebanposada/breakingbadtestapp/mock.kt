@@ -19,7 +19,6 @@ val mockedCharacter = ServerCharacter(
 
 val mockedLocalCharacter = DomainCharacter(
     1,
-    1,
     "mock",
     "09-07-1958",
     listOf("Occupation1"),

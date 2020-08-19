@@ -15,7 +15,3 @@ data class Character(
     @SerializedName("category") val category: String,
     @SerializedName("better_call_saul_appearance") val better_call_saul_appearance: List<Int>
 )
-
-data class Characters(
-    val characters: List<Character>
-)

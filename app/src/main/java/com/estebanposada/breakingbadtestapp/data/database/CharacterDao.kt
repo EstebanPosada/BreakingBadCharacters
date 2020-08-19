@@ -6,11 +6,11 @@ import androidx.room.*
 @Dao
 interface CharacterDao {
 
-    @Query("SELECT * FROM Character WHERE id = :id")
+    @Query("SELECT * FROM Character WHERE char_id = :id")
     fun findById(id: Int): Character
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertCharacter(characters: List<Character>)
+    fun insertCharacters(characters: List<Character>)
 
     @Update
     fun updateCharacter(character: Character)

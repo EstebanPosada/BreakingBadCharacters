@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.estebanposada.breakingbadtestapp.R
 import com.estebanposada.breakingbadtestapp.databinding.FragmentMainBinding
 import com.estebanposada.breakingbadtestapp.ui.MainVIewModel
 import dagger.hilt.android.AndroidEntryPoint

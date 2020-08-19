@@ -4,10 +4,9 @@ import com.estebanposada.breakingbadtestapp.data.database.CharacterDao
 import com.estebanposada.breakingbadtestapp.data.database.RoomDataSource
 import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
 import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
-import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
 import com.estebanposada.breakingbadtestapp.data.server.RemoteDataSourceImpl
+import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
 import com.estebanposada.breakingbadtestapp.data.source.RemoteDataSource
-import com.estebanposada.breakingbadtestapp.data.factory.CharacterDataFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,11 +22,10 @@ class DataModule {
     fun provideRepository(
         localDataSource: LocalDataSource,
         remoteDataSource: RemoteDataSource,
-        dataFactory: CharacterDataFactory,
         dao: CharacterDao,
         scope: CoroutineScope,
         api: BreakingBadApi
-    ) = CharactersRepository(localDataSource, remoteDataSource, dataFactory, dao, scope, api)
+    ) = CharactersRepository(localDataSource, remoteDataSource, dao, scope, api)
 
     @Provides
     fun provideLocalDataSource(dao: CharacterDao): LocalDataSource = RoomDataSource(dao)
@@ -38,15 +36,4 @@ class DataModule {
 
     @Provides
     fun provideCoroutineScopeIO() = CoroutineScope(Dispatchers.IO)
-
-    @Provides
-    fun provideCharacterDataSourceFactory(
-        dao: CharacterDao,
-        scope: CoroutineScope,
-        api: BreakingBadApi
-    ) = CharacterDataFactory(
-        dao,
-        scope,
-        api
-    )
 }
