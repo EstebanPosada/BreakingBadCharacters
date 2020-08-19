@@ -23,8 +23,11 @@ class DataModule {
     fun provideRepository(
         localDataSource: LocalDataSource,
         remoteDataSource: RemoteDataSource,
-        dataFactory: CharacterDataFactory
-    ) = CharactersRepository(localDataSource, remoteDataSource, dataFactory)
+        dataFactory: CharacterDataFactory,
+        dao: CharacterDao,
+        scope: CoroutineScope,
+        api: BreakingBadApi
+    ) = CharactersRepository(localDataSource, remoteDataSource, dataFactory, dao, scope, api)
 
     @Provides
     fun provideLocalDataSource(dao: CharacterDao): LocalDataSource = RoomDataSource(dao)

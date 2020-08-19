@@ -30,7 +30,7 @@ class CharacterDataFactory @Inject constructor(
     }
 
     companion object {
-        private const val PAGE_SIZE = 15
+        const val PAGE_SIZE = 15
 
         fun pagedListConfig() = PagedList.Config.Builder()
             .setPageSize(PAGE_SIZE)

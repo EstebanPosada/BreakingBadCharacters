@@ -21,5 +21,9 @@ class RoomDataSource @Inject constructor(private val dao: CharacterDao) :
         dao.updateCharacter(character)
     }
 
+    fun getData(fil: String) = dao.getCharacterss(fil)
+
+    fun getAll() = dao.getAll()
+
      override fun getFactoryCharacters(filter: String?): DataSource.Factory<Int, Character> = dao.getCharacters(filter)
 }

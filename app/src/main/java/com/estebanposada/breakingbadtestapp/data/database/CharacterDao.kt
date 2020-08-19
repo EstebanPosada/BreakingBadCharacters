@@ -24,4 +24,8 @@ interface CharacterDao {
     @Query("SELECT * FROM Character WHERE name = :filter " +
             "OR nickname = :filter ORDER BY favorite DESC")
     fun getCharacters(filter: String?): DataSource.Factory<Int, Character>
+
+    @Query("SELECT * FROM Character WHERE name = :filter " +
+            "OR nickname = :filter ORDER BY favorite DESC")
+    fun getCharacterss(filter: String?): Character
 }
