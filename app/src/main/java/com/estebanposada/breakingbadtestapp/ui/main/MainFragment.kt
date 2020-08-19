@@ -38,9 +38,9 @@ class MainFragment : Fragment() {
         binding.rvCharacters.addItemDecoration(decoration)
         binding.rvCharacters.adapter = adapter
 
-        adapter.onSelectedItem = {
+        adapter.onSelectedItem = { id, title ->
             view.findNavController()
-                .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
+                .navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(id, title))
         }
         binding.search.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

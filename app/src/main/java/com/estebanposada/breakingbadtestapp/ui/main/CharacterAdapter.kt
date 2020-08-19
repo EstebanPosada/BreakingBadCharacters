@@ -13,7 +13,7 @@ import com.estebanposada.breakingbadtestapp.databinding.CharacterItemBinding
 
 class CharacterAdapter : PagedListAdapter<Character, CharacterAdapter.ViewHolder>(COMPARATOR) {
 
-    var onSelectedItem: ((Int) -> Unit)? = null
+    var onSelectedItem: ((Int, String) -> Unit)? = null
     private lateinit var context: Context
 
     inner class ViewHolder(private val binding: CharacterItemBinding) :
@@ -26,7 +26,7 @@ class CharacterAdapter : PagedListAdapter<Character, CharacterAdapter.ViewHolder
             binding.name.text = character.name
             binding.nickname.text = character.nickname
             Glide.with(context).load(character.img).centerInside().into(binding.preview)
-            binding.itemContainer.setOnClickListener { onSelectedItem?.invoke(character.char_id) }
+            binding.itemContainer.setOnClickListener { onSelectedItem?.invoke(character.char_id, character.name) }
         }
     }
 

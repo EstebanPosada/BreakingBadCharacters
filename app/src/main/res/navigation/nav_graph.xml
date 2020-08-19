@@ -17,10 +17,13 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.estebanposada.breakingbadtestapp.ui.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="{title}"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>

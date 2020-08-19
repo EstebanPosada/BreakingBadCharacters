@@ -8,6 +8,8 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -29,10 +31,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            NavHostFragment.findNavController(this@DetailFragment).navigateUp()
-            true
-        }
         return binding.root
     }
 
