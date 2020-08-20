@@ -16,7 +16,6 @@ class CharacterBoundaryCallback(
 ) : PagedList.BoundaryCallback<Character>() {
 
     private var offset = 0
-    private var isRequestInProgress = false
     private var allPagesGrabbed = false
 
     override fun onZeroItemsLoaded() {
@@ -28,14 +27,17 @@ class CharacterBoundaryCallback(
     }
 
     private fun requestAndSaveData() {
-        if (isRequestInProgress) return
         if (allPagesGrabbed) return
         scope.launch {
-            val data =
-                api.getCharacters(PAGE_SIZE, offset).map { it.toDomain() }
-            if (data.isEmpty()) allPagesGrabbed = true
-            dao.insertCharacters(data)
-            offset += PAGE_SIZE
+            try {
+                val data = api.getCharacters(PAGE_SIZE, offset).map { it.toDomain() }
+                if (data.isEmpty()) allPagesGrabbed = true
+                dao.insertCharacters(data)
+                offset += PAGE_SIZE
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
     }
 }

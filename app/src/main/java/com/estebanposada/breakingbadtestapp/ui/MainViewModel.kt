@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MainVIewModel @ViewModelInject constructor(private val repository: CharactersRepository) :
+class MainViewModel @ViewModelInject constructor(private val repository: CharactersRepository) :
     ViewModel() {
 
     private val queryLiveData = MutableLiveData<String>()

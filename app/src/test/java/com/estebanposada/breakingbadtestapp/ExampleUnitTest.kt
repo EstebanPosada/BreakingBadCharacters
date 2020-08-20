@@ -2,6 +2,7 @@ package com.estebanposada.breakingbadtestapp
 
 import com.estebanposada.breakingbadtestapp.data.database.RoomDataSource
 import com.estebanposada.breakingbadtestapp.data.repository.CharactersRepository
+import com.estebanposada.breakingbadtestapp.ui.MainViewModel
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
@@ -24,17 +25,19 @@ class ExampleUnitTest {
     @Mock
     lateinit var repository: CharactersRepository
 
-    lateinit var localDataSource: RoomDataSource
+    private lateinit var localDataSource: RoomDataSource
+
+    private lateinit var vm: MainViewModel
 
     @Before
     fun setUp() {
-
+        vm = MainViewModel(repository)
     }
 
     @Test
     fun getCharacter() {
         runBlocking {
-            val character = mockedLocalCharacter.copy(id = 1)
+            val character = mockedLocalCharacter.copy(char_id = 1)
             whenever(repository.getCharacterById(1)).thenReturn(character)
 
             val result = localDataSource.findById(1)
@@ -44,26 +47,13 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun getCharacters() {
+    fun getCharacterById() {
         runBlocking {
-            val characters = listOf(mockedLocalCharacter.copy(id = 1))
-            whenever(repository.getCharacters(1, 0)).thenReturn(characters)
+            val character = mockedLocalCharacter.copy(char_id = 1)
 
-            val result = localDataSource.getCharacters()
+            val result = repository.toggleFavoriteCharacter(character.char_id)
 
-            assertEquals(characters, result)
-        }
-    }
-
-    @Test
-    fun getCh() {
-        runBlocking {
-            val character = mockedLocalCharacter.copy(id = 1)
-
-            val result = repository.toggleFavoriteCharacter(character.id)
-
-            verify(repository).toggleFavoriteCharacter(result.id)
-
+            verify(repository).toggleFavoriteCharacter(result.char_id)
         }
     }
 
@@ -72,7 +62,7 @@ class ExampleUnitTest {
         runBlocking {
             val character = mockedLocalCharacter.copy(favorite = true)
 
-            val result = repository.toggleFavoriteCharacter(character.id)
+            val result = repository.toggleFavoriteCharacter(character.char_id)
 
             assertFalse(result.favorite)
         }
@@ -83,15 +73,18 @@ class ExampleUnitTest {
         runBlocking {
             val character = mockedLocalCharacter.copy(favorite = false)
 
-            val result = repository.toggleFavoriteCharacter(character.id)
+            val result = repository.toggleFavoriteCharacter(character.char_id)
 
             assertTrue(result.favorite)
         }
     }
 
-
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testPaging() {
+        runBlocking {
+            val data = vm.detail.getValueForTest()!!
+            val test = vm.detail.getValueForTest()
+            assertEquals(data, test)
+        }
     }
 }

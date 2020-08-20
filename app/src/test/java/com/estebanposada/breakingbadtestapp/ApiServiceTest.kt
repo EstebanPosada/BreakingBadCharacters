@@ -37,22 +37,17 @@ class ApiServiceTest {
         mockWebServer = MockWebServer()
         service = Retrofit.Builder()
             .baseUrl(mockWebServer.url("/"))
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .client(provideHttpInterceptor().build())
+            .client(provideHttpInterceptor())
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BreakingBadApi::class.java)
     }
 
-    private fun provideHttpInterceptor(): OkHttpClient.Builder {
-        val httpClientBuilder = OkHttpClient.Builder()
-        val httpLoggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT)
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        httpClientBuilder.connectTimeout(30, TimeUnit.SECONDS)
-        httpClientBuilder.readTimeout(30, TimeUnit.SECONDS)
-        httpClientBuilder.retryOnConnectionFailure(true)
-        httpClientBuilder.addInterceptor(httpLoggingInterceptor)
-        return httpClientBuilder
-    }
+    private fun provideHttpInterceptor(): OkHttpClient =
+        HttpLoggingInterceptor().run {
+            level = HttpLoggingInterceptor.Level.BODY
+            OkHttpClient.Builder().addInterceptor(this).build()
+        }
 
     @After
     fun finish(){
@@ -82,8 +77,7 @@ class ApiServiceTest {
             mockResponse.addHeader(key, value)
         }
         mockWebServer.enqueue(
-            mockResponse
-                .setBody(source.readString(Charsets.UTF_8))
+            mockResponse.setBody(source.readString(Charsets.UTF_8))
         )
     }
 

@@ -8,20 +8,14 @@ import com.estebanposada.breakingbadtestapp.data.factory.CharacterBoundaryCallba
 import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
 import com.estebanposada.breakingbadtestapp.data.server.model.CharacterResult
 import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
-import com.estebanposada.breakingbadtestapp.data.source.RemoteDataSource
-import com.estebanposada.breakingbadtestapp.data.toDomain
 import kotlinx.coroutines.CoroutineScope
 
 class CharactersRepository(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
     private val dao: CharacterDao,
     private val scope: CoroutineScope,
     private val api: BreakingBadApi
 ) {
-
-    suspend fun getCharacters(limit: Int, offset: Int): List<Character> =
-        remoteDataSource.getCharacters(limit, offset).map { it.toDomain() }
 
     suspend fun getCharacterById(id: Int): Character = localDataSource.findById(id)
 

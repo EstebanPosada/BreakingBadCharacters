@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.estebanposada.breakingbadtestapp.databinding.FragmentMainBinding
-import com.estebanposada.breakingbadtestapp.ui.MainVIewModel
+import com.estebanposada.breakingbadtestapp.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +19,7 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainVIewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     private val adapter = CharacterAdapter()
 
@@ -51,7 +51,11 @@ class MainFragment : Fragment() {
         observeCharacters()
         val query = savedInstanceState?.getString(SEARCH_QUERY) ?: DEFAULT_QUERY
         viewModel.search(query)
-
+        binding.retryButton.setOnClickListener {
+            binding.progress.visibility = View.VISIBLE
+            it.visibility = View.GONE
+            viewModel.search(query)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -63,6 +67,7 @@ class MainFragment : Fragment() {
         viewModel.characters.observe(viewLifecycleOwner, Observer {
             binding.progress.visibility = View.GONE
             adapter.submitList(it)
+            binding.retryButton.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
         })
     }
 
