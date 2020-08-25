@@ -3,18 +3,13 @@ package com.estebanposada.breakingbadtestapp.data.repository
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.estebanposada.breakingbadtestapp.data.database.Character
-import com.estebanposada.breakingbadtestapp.data.database.CharacterDao
 import com.estebanposada.breakingbadtestapp.data.factory.CharacterBoundaryCallback
-import com.estebanposada.breakingbadtestapp.data.server.BreakingBadApi
 import com.estebanposada.breakingbadtestapp.data.server.model.CharacterResult
 import com.estebanposada.breakingbadtestapp.data.source.LocalDataSource
-import kotlinx.coroutines.CoroutineScope
 
 class CharactersRepository(
     private val localDataSource: LocalDataSource,
-    private val dao: CharacterDao,
-    private val scope: CoroutineScope,
-    private val api: BreakingBadApi
+    private val boundaryCallback: CharacterBoundaryCallback
 ) {
 
     suspend fun getCharacterById(id: Int): Character = localDataSource.findById(id)
@@ -33,7 +28,7 @@ class CharactersRepository(
         val data = LivePagedListBuilder(
             localDataFactory,
             pagedListConfig()
-        ).setBoundaryCallback(CharacterBoundaryCallback(dao, scope, api))
+        ).setBoundaryCallback(boundaryCallback)
             .build()
         return CharacterResult(data)
     }
@@ -45,7 +40,7 @@ class CharactersRepository(
         val data = LivePagedListBuilder(
             localDataFactory,
             pagedListConfig()
-        ).setBoundaryCallback(CharacterBoundaryCallback(dao, scope, api))
+        ).setBoundaryCallback(boundaryCallback)
             .build()
         return CharacterResult(data)
     }
